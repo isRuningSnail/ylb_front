@@ -81,12 +81,12 @@
                     <span>余利可投资金额</span>
                 </li>
             </ul>
-            <a href="details.html" target="_blank" class="new-user-btn">立即投资</a>
+            <a href="javascript:void(0)" @click="goLink('/page/product/detail',{productId:product.id})" class="new-user-btn">立即投资</a>
         </div>
         <span class="new-tag">新用户专享</span>
     </div>
 
-    <h2 class="public-title"><span>优选产品</span> <a href="list.html" target="_blank" class="public-title-more">查看更多产品>></a></h2>
+    <h2 class="public-title"><span>优选产品</span>  <a href="javascript:void(0)" @click="goLink('/page/product/list',{pType:1})" class="public-title-more">查看更多产品>></a></h2>
     <ul class="preferred-select clearfix" >
         <li v-for="(product,index) in youXuan" :key="product.id">
             <h3 class="preferred-select-title">
@@ -112,7 +112,7 @@
             <p class="preferred-select-txt">
                 优选计划项目，投资回报周期1个月，起点低，适合短期资金周转、对流动性要求高的投资人。
             </p>
-            <a href="javascript:;" target="_blank" class="preferred-select-btn">立即投资</a>
+            <a href="javascript:void(0)" @click="goLink('/page/product/detail',{productId:product.id})" class="preferred-select-btn">立即投资</a>
         </li>
         <!-- <li>
             <h3 class="preferred-select-title">
@@ -164,7 +164,7 @@
         </li> -->
     </ul>
 
-    <h2 class="public-title"><span>散标产品</span> <a href="list.html" target="_blank" class="public-title-more">查看更多产品>></a></h2>
+    <h2 class="public-title"><span>散标产品</span> <a href="javascript:void(0)" @click="goLink('/page/product/list',{pType:2})" class="public-title-more">查看更多产品>></a></h2>
     <ul class="preferred-select clearfix" >
         <li v-for=" product in sanBiao" :key="product.id">
             <h3 class="preferred-select-title1">个人信用消费借款
@@ -187,7 +187,7 @@
             <p class="preferred-select-txt">
                 优选计划项目，投资回报周期1个月，起点低，适合短期资金周转、对流动性要求高的投资人。
             </p>
-            <a href="javascript:;" target="_blank" class="preferred-select-btn">立即投资</a>
+            <a href="javascript:void(0)" @click="goLink('/page/product/detail',{productId:product.id})" class="preferred-select-btn">立即投资</a>
         </li>
         <!-- <li>
             <h3 class="preferred-select-title1">个人信用消费借款
@@ -377,6 +377,14 @@ export default {
                 this.sanBiao = resp.data.data.sanBiao;
             }
         })
+    },
+    methods:{
+        goLink(url,params){
+                this.$router.push({
+                    path: url,
+                    query: params
+                })
+        }
     }
   }
 </script>

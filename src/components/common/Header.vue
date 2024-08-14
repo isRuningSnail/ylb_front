@@ -7,7 +7,7 @@
                 <img src="@/assets/image/logo.png" alt="">
             </a></h1>
             <ul class="public-head-list">
-                <li><a href="index.html" target="_blank">主页</a></li>
+                <li><a href="javascript:void(0)" @click="goLink('/')">主页</a></li>
                 <li class="public-head-hover">
                     <a href="javascript:void(0);">我要投资</a>
                     <!--二级导航-->
@@ -30,7 +30,15 @@
 </template>
 <script>
 export default{
-    name:"Header"
+    name:"Header",
+    methods:{
+        goLink(url,params){
+                this.$router.push({
+                    path: url,
+                    query: params
+                })
+        }
+    }
 }
 
 </script>
