@@ -49,7 +49,7 @@
         <ul class="pagination">
             <li class="disabled"><a  href="javascript:void(0)" @click="first()">首页</a></li>
             <li><a href="javascript:void(0)" @click="pre()">上一页</a></li>
-            <li class="active"><span>1</span></li>
+            <li class="active"><span>{{ page.pageNo }}</span></li>
             <li><a  href="javascript:void(0)" @click="next()">下一页</a></li>
             <li><a href="javascript:void(0)" @click="last()">尾页</a></li>
             <li class="totalPages"><span>共{{ page.totalPage }}页</span></li>

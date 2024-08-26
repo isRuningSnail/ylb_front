@@ -1,23 +1,26 @@
 <template>
     <div>
+        
         <Header></Header>
-<div class="content clearfix">
+    <div class="content clearfix">
     <div class="detail-left">
-        <div class="detail-left-title">新手宝（20210819期）</div>
+        <div class="detail-left-title">{{ product.productName }}</div>
         <ul class="detail-left-number">
             <li>
                 <span>历史年化收益率</span>
-                <p><b>4.9</b>%</p>
+                <p><b>{{ product.rate }}</b>%</p>
                 <span>历史年化收益率</span>
             </li>
             <li>
                 <span>募集金额（元）</span>
-                <p><b>10000.0</b>元</p>
-                <span>募集中&nbsp;&nbsp;剩余募集金额3500.0元</span>
+                <p><b>{{ product.productMoney }}</b>元</p>
+                <span v-if="product.leftProductMoney>0">募集中&nbsp;&nbsp;剩余募集金额{{ product.leftProductMoney }}元</span>
+                <span v-else-if="product.leftProductMoney==0">已募集完</span>
             </li>
             <li>
                 <span>投资周期</span>
-                <p><b>1</b>个月</p>
+                <p v-if="product.productType == 0 "><b>{{product.cycle}}</b>天</p>
+                <p v-else><b>{{product.cycle}}</b>个月</p>
             </li>
 
         </ul>
@@ -45,37 +48,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td class="datail-record-phone">13712345600</td>
-                            <td>1500.0</td>
-                            <td>2021-08-19 09:47:14</td>
+                        <tr v-for="(bid,ind) in bidList" :key="bid.id">
+                            <td>{{ ind+1 }}</td>
+                            <td class="datail-record-phone">{{ bid.phone }}</td>
+                            <td>{{ bid.bidMoney }}</td>
+                            <td>{{ bid.bidTime }}</td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td class="datail-record-phone">13712345601</td>
-                            <td>1500.0</td>
-                            <td>2021-08-19 09:47:14</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td class="datail-record-phone">13712345602</td>
-                            <td>1500.0</td>
-                            <td>2021-08-19 09:47:14</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td class="datail-record-phone">13712345603</td>
-                            <td>1500.0</td>
-                            <td>2021-08-19 09:47:14</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td class="datail-record-phone">13712345604</td>
-                            <td>1500.0</td>
-                            <td>2021-08-19 09:47:14</td>
-                        </tr>
-
                     </tbody>
                 </table>
             </div>
@@ -107,23 +85,66 @@
 
 
 
-</div>
+    </div>
 
-        <Footer>
-        
-        </Footer>
+        <Footer></Footer>
     </div>
 </template>
 
 <script>
 import Header from '@/components/common/Header.vue'
 import Footer from  '@/components/common/Footer.vue'
+import {doGet} from '@/api/httpRequest'
+
 export default{
  name:"ProdectDetails",
  components:{
-    "Header":Header,
-    "Footer":Footer
+  // eslint-disable-next-line vue/no-unused-components
+  Header,
+    // eslint-disable-next-line vue/no-unused-components
+    Footer
+  },
+  data(){
+    return{
+        product:{
+            id: 0,
+            productName: "",
+            rate:0.0,
+            cycle: 0,
+            releaseTime: 0,
+            productType: 0,
+            productNo: "0",
+            productMoney: 0,
+            leftProductMoney: 0,
+            bidMinLimit: 0,
+            bidMaxLimit: 0,
+            productStatus: 0,
+            productFullTime: 0,
+            productDesc: "",
+            version: 0
+        },
+        bidList:[
+        {
+          id: 0,
+          phone: "",
+          bidTime: "",
+          bidMoney: 0.00
+        }]
+    }
+  },
+  mounted(){
+    let  productId = this.$route.query.productId;
+    doGet('/api/v1/product/info',{productId:productId}).then(resp =>{
+        console.log("产品信息："+resp);
+                if(resp.data.code ==200){
+                    this.product = resp.data.data;
+                    this.bidList = resp.data.list;
+                }
+    })
 
+  }
+  ,methods(){
+   
   }
 }
 
